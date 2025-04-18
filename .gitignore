@@ -1,0 +1,13 @@
+# Python
+_pycache_/
+*.py[cod]
+.venv/
+venv/
+# Airflow
+airflow_home/
+# dbt
+dbt/profiles.yml
+# GCP Credentials
+configs/service_accounts.json
+# IDE
+.vscode/
