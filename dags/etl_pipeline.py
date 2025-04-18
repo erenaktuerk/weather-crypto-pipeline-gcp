@@ -4,19 +4,19 @@ from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
 
 def extract_weather_data():
-    # Funktion zum Abrufen von Wetterdaten
+    # Function for retrieving weather data
     pass
 
 def extract_crypto_data():
-    # Funktion zum Abrufen von Kryptowährungsdaten
+    # Function for retrieving crypto currency data
     pass
 
 def transform_data():
-    # Transformation der Daten
+    # Transformation of data
     pass
 
 def load_data():
-    # Laden der Daten
+    # load the data
     pass
 
 with DAG('etl_pipeline', 
