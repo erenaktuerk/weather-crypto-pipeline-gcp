@@ -1,22 +1,20 @@
-# Weather Crypto Pipeline DAG
+Weather Crypto Pipeline DAG
 
-## Project Overview
+Project Overview
 
 This project implements an Airflow Directed Acyclic Graph (DAG) that retrieves weather data, analyzes cryptocurrency prices, and provides a decision-making pipeline. The DAG is designed to run periodically to process real-time data and make informed decisions.
 
-## Architecture
+Architecture
+	•	Airflow: Orchestrates the execution of the pipeline.
+	•	Gunicorn: Acts as the WSGI server for the web interface.
+	•	DAG: Defines the steps of the pipeline, including fetching weather data, analyzing cryptocurrency prices, and making decisions.
 
-- *Airflow*: Orchestrates the execution of the pipeline.
-- *Gunicorn*: Acts as the WSGI server for the web interface.
-- *DAG*: Defines the steps of the pipeline, including fetching weather data, analyzing cryptocurrency prices, and making decisions.
+Installation
+	1.	Clone the repository:
 
-## Installation
+git clone https://github.com/erenaktuerk/weather-crypto-pipeline-gcp.git
+cd weather-crypto-pipeline
 
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/your-username/weather-crypto-pipeline.git
-   cd weather-crypto-pipeline
 
 	2.	Create and activate a virtual Python environment:
 
@@ -70,4 +68,4 @@ License
 
 This project is licensed under the MIT License.
 
----
+⸻

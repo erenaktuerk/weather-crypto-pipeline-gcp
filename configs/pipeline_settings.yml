@@ -1,2 +1,7 @@
-weather_api_key: "your_weather_api_key"
-crypto_api_key: "your_crypto_api_key"
+# Configuration file for storing API keys
+
+# Weather API key for OpenWeatherMap
+weather_api_key: "your_openweathermap_api_key"
+
+# Crypto API key for CoinGecko
+crypto_api_key: "your_coingecko_api_key"
