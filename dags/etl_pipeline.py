@@ -1,92 +1,64 @@
-from airflow import DAG
-from airflow.operators.empty import EmptyOperator
-from airflow.operators.python import PythonOperator
-from datetime import datetime, timedelta
 import logging
 
-# Define the extraction functions
 def extract_weather_data(**kwargs):
-    """Function for retrieving weather data"""
+    """
+    Simulates extraction of weather data.
+    This would typically involve an API call to a weather data provider.
+    """
     try:
-        # Fetch weather data (Placeholder)
         logging.info("Extracting weather data...")
-        # You would implement the actual data fetching logic here
+        # Simulated data extraction (replace with real API call)
+        return {"weather_data": "weather_data_placeholder"}
     except Exception as e:
         logging.error(f"Failed to extract weather data: {e}")
         raise
 
 def extract_crypto_data(**kwargs):
-    """Function for retrieving crypto currency data"""
+    """
+    Simulates extraction of cryptocurrency data.
+    This would typically involve an API call to a crypto exchange or aggregator.
+    """
     try:
-        # Fetch crypto data (Placeholder)
         logging.info("Extracting cryptocurrency data...")
-        # You would implement the actual data fetching logic here
+        # Simulated data extraction (replace with real API call)
+        return {"crypto_data": "crypto_data_placeholder"}
     except Exception as e:
         logging.error(f"Failed to extract cryptocurrency data: {e}")
         raise
 
 def transform_data(**kwargs):
-    """Transformation of data"""
+    """
+    Combines and transforms the weather and crypto data.
+    Transformation could include formatting, cleaning, or combining datasets.
+    """
     try:
-        # Perform data transformation (Placeholder)
-        logging.info("Transforming data...")
-        # Implement your data transformation logic here
+        ti = kwargs["ti"]
+        weather_data = ti.xcom_pull(task_ids="extract_weather_data")
+        crypto_data = ti.xcom_pull(task_ids="extract_crypto_data")
+
+        logging.info(f"Received weather data: {weather_data}")
+        logging.info(f"Received crypto data: {crypto_data}")
+
+        # Simulated transformation
+        transformed = {
+            "transformed_weather": weather_data.get("weather_data", ""),
+            "transformed_crypto": crypto_data.get("crypto_data", "")
+        }
+
+        return transformed
     except Exception as e:
         logging.error(f"Data transformation failed: {e}")
         raise
 
 def load_data(**kwargs):
-    """Load the data to target"""
+    """
+    Simulates loading of transformed data to a target system like a database or file storage.
+    """
     try:
-        # Load the data (Placeholder)
-        logging.info("Loading data...")
-        # You would implement the actual data loading logic here
+        ti = kwargs["ti"]
+        transformed_data = ti.xcom_pull(task_ids="transform_data")
+        logging.info(f"Loading transformed data: {transformed_data}")
+        # Simulated load (replace with database insert, file write, etc.)
     except Exception as e:
         logging.error(f"Failed to load data: {e}")
         raise
-
-# Define the DAG structure
-with DAG(
-    'etl_pipeline', 
-    default_args={
-        'owner': 'airflow', 
-        'start_date': datetime(2025, 4, 18), 
-        'retries': 1, 
-        'retry_delay': timedelta(minutes=5),
-    }, 
-    schedule_interval='@daily', 
-    catchup=False,  # Ensures that missed runs are not backfilled
-    tags=['etl', 'weather', 'crypto']
-) as dag:
-
-    # Define tasks
-    start = EmptyOperator(task_id='start')
-
-    extract_weather = PythonOperator(
-        task_id='extract_weather_data', 
-        python_callable=extract_weather_data, 
-        provide_context=True
-    )
-
-    extract_crypto = PythonOperator(
-        task_id='extract_crypto_data', 
-        python_callable=extract_crypto_data, 
-        provide_context=True
-    )
-
-    transform = PythonOperator(
-        task_id='transform_data', 
-        python_callable=transform_data, 
-        provide_context=True
-    )
-
-    load = PythonOperator(
-        task_id='load_data', 
-        python_callable=load_data, 
-        provide_context=True
-    )
-
-    end = EmptyOperator(task_id='end')
-
-    # Define the task dependencies
-    start >> [extract_weather, extract_crypto] >> transform >> load >> end
